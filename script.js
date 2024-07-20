@@ -18,7 +18,10 @@ const section3 = document.querySelector(".section-3");
 const progress = document.querySelectorAll(".circle");
 const alert = document.querySelector(".alert");
 
-var sectionNumber = 1;
+const localStorage = window.localStorage;
+
+var sectionNumber = localStorage.getItem("sectionNumber") || 1;
+var selectedGrade = "";
 
 function toggleSection(sectionNumber) {
   if (sectionNumber === 2) {
@@ -45,6 +48,40 @@ function toggleSection(sectionNumber) {
   }
 }
 
+function saveToLocalStorage() {
+  console.log("Saved to local storage");
+  data = {
+    sectionNumber: sectionNumber,
+    firstname: firstnameInput.value,
+    lastname: lastnameInput.value,
+    email: emailInput.value,
+    phone: phoneInput.value,
+    university: universityInput.value,
+    field_of_study: field_of_studyInput.value,
+    experience: experienceInput.value,
+    why_join: why_joinInput.value,
+    grade_level: selectedGrade,
+  };
+  localStorage.setItem("data", JSON.stringify(data));
+}
+
+function loadFromLocalStorage() {
+  if (localStorage.getItem("data")) {
+    let data = JSON.parse(localStorage.getItem("data"));
+    sectionNumber = data.sectionNumber;
+    firstnameInput.value = data.firstname;
+    lastnameInput.value = data.lastname;
+    emailInput.value = data.email;
+    phoneInput.value = data.phone;
+    universityInput.value = data.university;
+    field_of_studyInput.value = data.field_of_study;
+    experienceInput.value = data.experience;
+    why_joinInput.value = data.why_join;
+    selectedGrade = data.grade_level;
+    toggleSection(sectionNumber);
+    updateProgress();
+  }
+}
 function backSection() {
   // Check if both elements exist
   if (section1 && section2 && section3) {
@@ -53,6 +90,7 @@ function backSection() {
       sectionNumber--;
       toggleSection(sectionNumber);
       updateProgress();
+      saveToLocalStorage();
     }
   } else {
     console.error("One or both sections not found");
@@ -63,10 +101,11 @@ function nextSection() {
   // Check if both elements exist
   if (section1 && section2 && section3) {
     // Toggle display style between 'none' and 'block'
-    if (sectionNumber <= 3) {
+    if (sectionNumber < 3) {
       sectionNumber++;
       toggleSection(sectionNumber);
       updateProgress();
+      saveToLocalStorage();
     }
   } else {
     console.error("One or both sections not found");
@@ -101,21 +140,21 @@ function checkSubmitedData() {
   }
 }
 
-
+loadFromLocalStorage();
 
 nextBtn.forEach((btn) => {
   btn.addEventListener("click", nextSection);
-})
+});
 backbtn.addEventListener("click", backSection);
 
 if (submitBtn) {
   submitBtn.addEventListener("click", (e) => {
     e.preventDefault();
     checkSubmitedData();
-    var selectedGrade = document.querySelector(
-      'input[name="grade-level"]:checked'
-    ).value;
-    
+    selectedGrade = document.querySelector(
+      'input[name="grade"]:checked'
+    )?.value;
+
     let data = {
       firstname: firstnameInput.value,
       lastname: lastnameInput.value,
