@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./script.js" defer></script>
+    <title>Recrutment cscc</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- navbar -->
+      <div class="side-bg">
+        <div class="logo">
+          <!-- <span class="logo-style">C.</span> SCC -->
+          <!-- <img src="./logo.png" alt="logo" /> -->
+        </div>
+        <p class="title">Registration Form for joining cscc club 2024 / 2025</p>
+        <p class="sub-title">
+          are you ready to join us? fill the next form and start your new
+          journey with us ! we are waiting for you !!
+        </p>
+        <!-- <button class="show-form">Join Us</button> -->
+      </div>
+      <div class="form-container">
+        <div class="alert"></div>
+        <div class="form-header">
+          <div class="back-btn">
+            <img src="./back.png" alt="back" />
+          </div>
+          <div class="progress-bar">
+            <div id="1" class="circle active-circle">1</div>
+            <div id="2" class="circle">2</div>
+            <div id="3" class="circle">3</div>
+          </div>
+        </div>
+        <form class="form-content">
+          <!-- personal info -->
+          <div class="section-1">
+            <h2>Personel Info</h2>
+            <div class="form-area">
+              <div class="form-group">
+                <label for="firstname">First Name :</label>
+                <input
+                  type="text"
+                  name="firstname"
+                  id="firstname"
+                  placeholder="Enter your first name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="lastname">Last Name :</label>
+                <input
+                  type="text"
+                  name="lastname"
+                  id="lastname"
+                  placeholder="Enter your full lastname"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-area">
+              <div class="form-group">
+                <label for="name">Email :</label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Enter your email address"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number :</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
+            </div>
+            <button type="button" class="submit-btn">Next</button>
+          </div>
+          <!-- academic info -->
+          <div class="section-2">
+            <h2>Academic Info</h2>
+            <div class="form-area">
+              <div class="form-group">
+                <label for="university">University :</label>
+                <input
+                  type="text"
+                  name="university"
+                  id="university"
+                  placeholder="Enter your university"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="field-of-study">Field of Study :</label>
+                <input
+                  type="text"
+                  name="field-of-study"
+                  id="field-of-study"
+                  placeholder="Enter your field of study"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-area">
+              <div class="form-group">
+                <label>Grade Level :</label>
+                <div class="gradelevel-content">
+                  <div>
+                    <input
+                      type="radio"
+                      id="grade1"
+                      name="grade-level"
+                      value="L1 / ING first year"
+                      required
+                    />
+                    <label for="grade1">L1 / ING first year</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="grade2"
+                      name="grade-level"
+                      value="L2 / ING second year"
+                    />
+                    <label for="grade2">L2 / ING second year</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="grade3"
+                      name="grade-level"
+                      value="L3 / ING third year"
+                    />
+                    <label for="grade3">L3 / ING third year</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="grade4"
+                      name="grade-level"
+                      value="M1 / ING fourth year"
+                    />
+                    <label for="grade4">M1 / ING fourth year</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="grade5"
+                      name="grade-level"
+                      value="M2 / ING fifth year"
+                    />
+                    <label for="grade5">M2 / ING fifth year</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="interests">Scientific Interests :</label>
+                <textarea
+                  name="interests"
+                  id="interests"
+                  placeholder="Describe your scientific interests"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+            </div>
+            <button type="button" class="submit-btn">Next</button>
+          </div>
+          <!-- additional info -->
+          <div class="section-3">
+            <h2>Additional Info</h2>
+            <div class="form-area">
+              <div class="form-group">
+                <label for="experience">Relevant Experience :</label>
+                <textarea
+                  name="experience"
+                  id="experience"
+                  placeholder="Describe any relevant experience you have"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="why-join">Why Join the Club ?</label>
+                <textarea
+                  name="why-join"
+                  id="why-join"
+                  placeholder="Explain why you want to join the scientific club"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
