@@ -315,7 +315,7 @@ hr {
   }
 
   .container{
-    padding-top: 10%;
+    margin-top: 40%;
   }
 
   .form-container{
@@ -347,5 +347,13 @@ hr {
     z-index: 100;
     padding-top: 1%;
     padding-bottom: 1%;
+  }
+
+  .form-area{
+    flex-direction: column;
+  }
+
+  html,body, :root{
+    overflow-y: auto;
   }
 }
