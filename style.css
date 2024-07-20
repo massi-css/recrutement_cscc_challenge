@@ -358,4 +358,9 @@ hr {
   html,body, :root{
     overflow-y: auto;
   }
+  .alert{
+   top: unset;
+   bottom: -5%;
+   margin-left: 15%;
+  }
 }
