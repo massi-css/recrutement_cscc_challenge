@@ -21,7 +21,6 @@ body,
   height: 100vh;
   display: flex;
   background-color: #f6f5fc;
-  align-items: center;
 }
 
 .side-bg {
