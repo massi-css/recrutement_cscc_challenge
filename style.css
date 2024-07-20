@@ -352,6 +352,9 @@ hr {
   .form-area{
     flex-direction: column;
   }
+  .circle{
+    padding: 5%;
+  }
 
   html,body, :root{
     overflow-y: auto;
