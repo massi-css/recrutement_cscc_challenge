@@ -1,14 +1,13 @@
-const form = document.querySelector("form");
-const showformBtn = document.querySelector(".show-form");
-
 const firstnameInput = document.querySelector("#firstname");
 const lastnameInput = document.querySelector("#lastname");
 const emailInput = document.querySelector("#email");
 const phoneInput = document.querySelector("#phone");
 const universityInput = document.querySelector("#university");
 const field_of_studyInput = document.querySelector("#field-of-study");
+const sientificInterestsInput = document.querySelector("#interests");
 const experienceInput = document.querySelector("#experience");
 const why_joinInput = document.querySelector("#why-join");
+const grade_levelInputs = document.querySelectorAll('input[name="grade-level"]');
 const submitBtn = document.querySelector(".submit-btn[type='submit']");
 const nextBtn = document.querySelectorAll(".submit-btn[type='button']");
 const backbtn = document.querySelector(".back-btn");
@@ -21,7 +20,6 @@ const alert = document.querySelector(".alert");
 const localStorage = window.localStorage;
 
 var sectionNumber = localStorage.getItem("sectionNumber") || 1;
-var selectedGrade = "";
 
 function toggleSection(sectionNumber) {
   if (sectionNumber === 2) {
@@ -49,6 +47,9 @@ function toggleSection(sectionNumber) {
 }
 
 function saveToLocalStorage() {
+  const selectedGrade = document.querySelector(
+    'input[name="grade-level"]:checked'
+  )?.value;
   console.log("Saved to local storage");
   data = {
     sectionNumber: sectionNumber,
@@ -58,6 +59,7 @@ function saveToLocalStorage() {
     phone: phoneInput.value,
     university: universityInput.value,
     field_of_study: field_of_studyInput.value,
+    Scientific_interests: sientificInterestsInput.value,
     experience: experienceInput.value,
     why_join: why_joinInput.value,
     grade_level: selectedGrade,
@@ -77,7 +79,12 @@ function loadFromLocalStorage() {
     field_of_studyInput.value = data.field_of_study;
     experienceInput.value = data.experience;
     why_joinInput.value = data.why_join;
-    selectedGrade = data.grade_level;
+    sientificInterestsInput.value = data.Scientific_interests;
+    grade_levelInputs.forEach((input) => {
+      if (input.value === data.grade_level) {
+        input.checked = true;
+      }
+    })
     toggleSection(sectionNumber);
     updateProgress();
   }
@@ -123,6 +130,9 @@ function updateProgress() {
 }
 
 function checkSubmitedData() {
+  const selectedGrade = document.querySelector(
+    'input[name="grade-level"]:checked'
+  )?.value;
   if (
     firstnameInput.value === "" ||
     lastnameInput.value === "" ||
@@ -131,12 +141,35 @@ function checkSubmitedData() {
     universityInput.value === "" ||
     field_of_studyInput.value === "" ||
     experienceInput.value === "" ||
-    why_joinInput.value === ""
+    why_joinInput.value === "" ||
+    sientificInterestsInput.value === "" ||
+    selectedGrade === "" || selectedGrade === undefined
   ) {
     alert.style.opacity = 1;
     alert.textContent = "Please fill in all fields !!";
+    return false;
   } else {
     alert.style.opacity = 0;
+    return true;
+  }
+}
+
+async function sendData(data) {
+  console.log("Sending data to server");
+  try {
+    // const response = await axios.post("http://localhost:5000/register", data);
+    // console.log(response.data);
+    const response = await fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const message = await response.text();
+    console.log(message);
+  } catch (error) {
+    console.error("Fetch error:", error);
   }
 }
 
@@ -150,21 +183,26 @@ backbtn.addEventListener("click", backSection);
 if (submitBtn) {
   submitBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    checkSubmitedData();
-    selectedGrade = document.querySelector(
-      'input[name="grade"]:checked'
-    )?.value;
+    if (checkSubmitedData()) {
+      selectedGrade = document.querySelector(
+        'input[name="grade-level"]:checked'
+      )?.value;
 
-    let data = {
-      firstname: firstnameInput.value,
-      lastname: lastnameInput.value,
-      email: emailInput.value,
-      phone: phoneInput.value,
-      university: universityInput.value,
-      grade_level: selectedGrade,
-      field_of_study: field_of_studyInput.value,
-    };
+      let data = {
+        firstname: firstnameInput.value,
+        lastname: lastnameInput.value,
+        email: emailInput.value,
+        phone: phoneInput.value,
+        university: universityInput.value,
+        grade_level: selectedGrade,
+        experience: experienceInput.value,
+        why_join: why_joinInput.value,
+        Scientific_interests: sientificInterestsInput.value,
+        field_of_study: field_of_studyInput.value,
+      };
 
-    console.log(data);
+      console.log(data);
+      sendData(data);
+    }
   });
 }
