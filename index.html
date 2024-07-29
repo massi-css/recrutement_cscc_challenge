@@ -5,11 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
-    <script src="./script.js" defer ></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="./script.js" defer></script>
     <title>Recrutment cscc</title>
   </head>
   <body>
     <div class="container">
+      <div class="slide-container">
+        <div class="slider">
+          <img src="./assets/1.jfif" alt="slide1" id="slider-1" />
+          <img src="./assets/2.jfif" alt="slide2" id="slider-2" />
+          <img src="./assets/3.jfif" alt="slide3" id="slider-3" />
+          <img src="./assets/4.jfif" alt="slide4" id="slider-4" />
+          <img src="./assets/5.jfif" alt="slide5" id="slider-5" />
+          <img src="./assets/6.jfif" alt="slide5" id="slider-6" />
+        </div>
+        <div class="slider-nav">
+          <a href="#slider-1" class="active"></a>
+          <a href="#slider-2"></a>
+          <a href="#slider-3"></a>
+          <a href="#slider-4"></a>
+          <a href="#slider-5"></a>
+          <a href="#slider-6"></a>
+        </div>
+      </div>
       <div class="mobile-nav">
         <div class="mobile-logo">
           <img src="./assets/logo2.png" alt="logo" />
@@ -17,14 +36,10 @@
       </div>
       <!-- navbar -->
       <div class="side-bg">
-        <div class="logo">
-        </div>
-        <p class="title">Registration Form for joining cscc club 2024 / 2025</p>
-        <p class="sub-title">
-          are you ready to join us? fill the next form and start your new
-          journey with us ! we are waiting for you !!
-        </p>
-        <!-- <button class="show-form">Join Us</button> -->
+        <div class="logo"></div>
+        <p class="title">Hello there!</p>
+        <p class="sub-title">We are happy to see you here</p>
+        <button class="show-form">Join Us</button>
       </div>
       <div class="form-container">
         <div class="alert"></div>
@@ -205,7 +220,6 @@
             </div>
             <button type="submit" class="submit-btn">Submit</button>
           </div>
-          
         </form>
       </div>
     </div>
