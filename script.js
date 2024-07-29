@@ -159,11 +159,14 @@ async function sendData(data) {
   const sidebgTitle = document.querySelector(".side-bg .title");
   const sidebgSubTitle = document.querySelector(".side-bg .sub-title");
 
+  // let serverOrigin = "http://localhost:5000";
+  let serverOrigin = "https://recrutement-cscc-challenge-server.onrender.com";
+
   console.log("Sending data to server");
   try {
     // const response = await axios.post("http://localhost:5000/register", data);
     // console.log(response.data);
-    const response = await fetch("http://localhost:5000/register", {
+    const response = await fetch(`${serverOrigin}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -318,7 +321,11 @@ if (submitBtn) {
       };
 
       console.log(data);
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Submitting...";
       sendData(data);
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = "Submit";
     }
   });
 }
