@@ -148,34 +148,36 @@ function loadProgrammingLanguagesRatings(data) {
     checkbox.checked = false;
   });
 
-  data.forEach(({ language, rating }) => {
-    let ratingValue = 0;
+  data.length > 0
+    ? data.forEach(({ language, rating }) => {
+        let ratingValue = 0;
 
-    switch (rating) {
-      case "Beginner":
-        ratingValue = 1;
-        break;
-      case "Intermediate":
-        ratingValue = 2;
-        break;
-      case "Advanced":
-        ratingValue = 3;
-        break;
-      case "Expert":
-        ratingValue = 4;
-        break;
-      default:
-        ratingValue = 0;
-    }
-
-    let checkboxes = sientificInterestsInput
-      .querySelectorAll(`input[name=${language.toLowerCase()}]`)
-      .forEach((checkbox) => {
-        if (parseInt(checkbox.value) <= ratingValue) {
-          checkbox.checked = true;
+        switch (rating) {
+          case "Beginner":
+            ratingValue = 1;
+            break;
+          case "Intermediate":
+            ratingValue = 2;
+            break;
+          case "Advanced":
+            ratingValue = 3;
+            break;
+          case "Expert":
+            ratingValue = 4;
+            break;
+          default:
+            ratingValue = 0;
         }
-      });
-  });
+
+        let checkboxes = sientificInterestsInput
+          .querySelectorAll(`input[name=${language.toLowerCase()}]`)
+          .forEach((checkbox) => {
+            if (parseInt(checkbox.value) <= ratingValue) {
+              checkbox.checked = true;
+            }
+          });
+      })
+    : null;
 }
 
 function saveToLocalStorage() {
