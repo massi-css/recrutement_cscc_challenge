@@ -49,6 +49,135 @@ function toggleSection(sectionNumber) {
   }
 }
 
+// interests checkboxes
+document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+  checkbox.addEventListener("change", function () {
+    const selectedValue = parseInt(this.value);
+    const selectedname = this.name;
+    document
+      .querySelectorAll(`input[name=${selectedname}]`)
+      .forEach((checkbox) => {
+        if (parseInt(checkbox.value) <= selectedValue) {
+          checkbox.checked = true;
+        } else {
+          checkbox.checked = false;
+        }
+      });
+  });
+});
+
+document.querySelectorAll(".custom-checkmark").forEach((checkmark) => {
+  checkmark.addEventListener("click", function () {
+    const checkbox = this.previousElementSibling;
+    if (checkbox) {
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event("change"));
+    }
+  });
+});
+
+function getProgrammingLanguagesRatings() {
+  const checkboxes = sientificInterestsInput.querySelectorAll(
+    'input[type="checkbox"]'
+  );
+
+  const checkedCheckboxes = Array.from(checkboxes).filter(
+    (checkbox) => checkbox.checked
+  );
+
+  const languageRatings = new Map();
+
+  checkedCheckboxes.forEach((checkbox) => {
+    let language = "";
+    let ratingValue = parseInt(checkbox.value);
+    const checkboxId = checkbox.id.toLowerCase();
+
+    if (checkboxId.startsWith("c")) {
+      language = "C";
+    } else if (checkboxId.startsWith("java")) {
+      language = "Java";
+    } else if (checkboxId.startsWith("python")) {
+      language = "Python";
+    } else if (checkboxId.startsWith("js")) {
+      language = "JavaScript";
+    } else if (checkboxId.startsWith("php")) {
+      language = "PHP";
+    }
+
+    if (
+      !languageRatings.has(language) ||
+      languageRatings.get(language) < ratingValue
+    ) {
+      languageRatings.set(language, ratingValue);
+    }
+  });
+
+  const ratings = Array.from(languageRatings.entries()).map(
+    ([language, ratingValue]) => {
+      let rating = "";
+
+      switch (ratingValue) {
+        case 1:
+          rating = "Beginner";
+          break;
+        case 2:
+          rating = "Intermediate";
+          break;
+        case 3:
+          rating = "Advanced";
+          break;
+        case 4:
+          rating = "Expert";
+          break;
+        default:
+          rating = "Unknown";
+      }
+
+      return { language, rating };
+    }
+  );
+
+  return ratings;
+}
+
+function loadProgrammingLanguagesRatings(data) {
+  const checkboxes = sientificInterestsInput.querySelectorAll(
+    'input[type="checkbox"]'
+  );
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+
+  data.forEach(({ language, rating }) => {
+    let ratingValue = 0;
+
+    switch (rating) {
+      case "Beginner":
+        ratingValue = 1;
+        break;
+      case "Intermediate":
+        ratingValue = 2;
+        break;
+      case "Advanced":
+        ratingValue = 3;
+        break;
+      case "Expert":
+        ratingValue = 4;
+        break;
+      default:
+        ratingValue = 0;
+    }
+
+    let checkboxes = sientificInterestsInput
+      .querySelectorAll(`input[name=${language.toLowerCase()}]`)
+      .forEach((checkbox) => {
+        if (parseInt(checkbox.value) <= ratingValue) {
+          checkbox.checked = true;
+        }
+      });
+  });
+}
+
 function saveToLocalStorage() {
   const selectedGrade = document.querySelector(
     'input[name="grade-level"]:checked'
@@ -62,12 +191,13 @@ function saveToLocalStorage() {
     phone: phoneInput.value,
     university: universityInput.value,
     field_of_study: field_of_studyInput.value,
-    Scientific_interests: sientificInterestsInput.value,
+    Scientific_interests: getProgrammingLanguagesRatings(),
     experience: experienceInput.value,
     why_join: why_joinInput.value,
     grade_level: selectedGrade,
   };
   localStorage.setItem("data", JSON.stringify(data));
+  console.log(data);
 }
 
 function loadFromLocalStorage() {
@@ -82,7 +212,7 @@ function loadFromLocalStorage() {
     field_of_studyInput.value = data.field_of_study;
     experienceInput.value = data.experience;
     why_joinInput.value = data.why_join;
-    sientificInterestsInput.value = data.Scientific_interests;
+    loadProgrammingLanguagesRatings(data.Scientific_interests);
     grade_levelInputs.forEach((input) => {
       if (input.value === data.grade_level) {
         input.checked = true;
