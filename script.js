@@ -273,7 +273,6 @@ function checkSubmitedData() {
     field_of_studyInput.value === "" ||
     experienceInput.value === "" ||
     why_joinInput.value === "" ||
-    sientificInterestsInput.value === "" ||
     selectedGrade === "" ||
     selectedGrade === undefined
   ) {
@@ -452,7 +451,7 @@ if (submitBtn) {
         grade_level: selectedGrade,
         experience: experienceInput.value,
         why_join: why_joinInput.value,
-        Scientific_interests: sientificInterestsInput.value,
+        Scientific_interests: getProgrammingLanguagesRatings(),
         field_of_study: field_of_studyInput.value,
       };
 
