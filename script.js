@@ -294,7 +294,7 @@ function loadFromLocalStorage() {
     });
     RangeInputs.forEach((rangeInput) => {
       rangeInput.value = valueToRange(
-        data.DepartementsDesires.find((dep) => dep.depName === rangeInput.name)
+        data.DepartementsDesires?.find((dep) => dep.depName === rangeInput.name)
           .depValue
       );
       const output = rangeInput.nextElementSibling;
@@ -506,7 +506,7 @@ setInterval(() => slideNext(1), 7000 * sliderNavs.length);
 sliderNavs.forEach((anchor) => {
   anchor.addEventListener("click", smoothScrollSlide);
 });
-
+saveToLocalStorage();
 loadFromLocalStorage();
 
 nextBtn.forEach((btn) => {
