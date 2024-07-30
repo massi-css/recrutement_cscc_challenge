@@ -337,6 +337,10 @@ async function sendData(data) {
         });
         requestAnimationFrame(frame);
       })();
+    } else {
+      alert.style.opacity = 1;
+      alert.style.backgroundColor = "red";
+      alert.textContent = message;
     }
   } catch (error) {
     console.error("Fetch error:", error);
