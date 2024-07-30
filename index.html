@@ -48,9 +48,10 @@
             <img src="./assets/back.png" alt="back" />
           </div>
           <div class="progress-bar">
-            <div id="1" class="circle active-circle">1</div>
-            <div id="2" class="circle">2</div>
-            <div id="3" class="circle">3</div>
+            <div id="1" class="circle active-circle" value="1">1</div>
+            <div id="2" class="circle" value="2">2</div>
+            <div id="3" class="circle" value="3">3</div>
+            <div id="3" class="circle" value="4">4</div>
           </div>
         </div>
         <form class="form-content">
@@ -386,8 +387,67 @@
             </div>
             <button type="button" class="submit-btn">Next</button>
           </div>
-          <!-- additional info -->
+          <!-- Preferences -->
           <div class="section-3">
+            <h2>Preferences</h2>
+            <div class="form-area">
+              <div class="form-group">
+                <label for="departements">choose your departement :</label>
+                <div class="desire-content">
+                  <div>
+                    <label for="developmentRange"
+                      >Development Dep :</label
+                    >
+                    <input
+                      type="range"
+                      id="developmentRange"
+                      name="development"
+                      min="0"
+                      max="4"
+                      step="1"
+                      value="2"
+                    />
+                    <span id="developmentText" class=".output"
+                      >I don't know</span
+                    >
+                  </div>
+                  <div>
+                    <label for="communicationRange"
+                      >Communication Dep :</label
+                    >
+                    <input
+                      type="range"
+                      id="communicationRange"
+                      name="communication"
+                      min="0"
+                      max="4"
+                      step="1"
+                      value="2"
+                    />
+                    <span id="communicationText" class=".output"
+                      >I don't know</span
+                    >
+                  </div>
+                  <div>
+                    <label for="roboticsRange">Robotics Dep :</label>
+                    <input
+                      type="range"
+                      id="roboticsRange"
+                      name="robotics"
+                      min="0"
+                      max="4"
+                      step="1"
+                      value="2"
+                    />
+                    <span id="roboticsText" class=".output">I don't know</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="submit-btn">Next</button>
+          </div>
+          <!-- additional info -->
+          <div class="section-4">
             <h2>Additional Info</h2>
             <div class="form-area">
               <div class="form-group">

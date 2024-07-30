@@ -10,12 +10,14 @@ const why_joinInput = document.querySelector("#why-join");
 const grade_levelInputs = document.querySelectorAll(
   'input[name="grade-level"]'
 );
+const RangeInputs = document.querySelectorAll("input[type='range']");
 const submitBtn = document.querySelector(".submit-btn[type='submit']");
 const nextBtn = document.querySelectorAll(".submit-btn[type='button']");
 const backbtn = document.querySelector(".back-btn");
 const section1 = document.querySelector(".section-1");
 const section2 = document.querySelector(".section-2");
 const section3 = document.querySelector(".section-3");
+const section4 = document.querySelector(".section-4");
 const progress = document.querySelectorAll(".circle");
 const alert = document.querySelector(".alert");
 const sliderNavs = document.querySelectorAll(".slider-nav a");
@@ -32,6 +34,8 @@ function toggleSection(sectionNumber) {
     section3.style.opacity = 0;
     section1.style.height = 0;
     section1.style.opacity = 0;
+    section4.style.height = 0;
+    section4.style.opacity = 0;
   } else if (sectionNumber === 1) {
     section1.style.height = "fit-content";
     section1.style.opacity = 1;
@@ -39,6 +43,8 @@ function toggleSection(sectionNumber) {
     section2.style.opacity = 0;
     section3.style.height = 0;
     section3.style.opacity = 0;
+    section4.style.height = 0;
+    section4.style.opacity = 0;
   } else if (sectionNumber === 3) {
     section3.style.height = "fit-content";
     section3.style.opacity = 1;
@@ -46,6 +52,17 @@ function toggleSection(sectionNumber) {
     section2.style.opacity = 0;
     section1.style.height = 0;
     section1.style.opacity = 0;
+    section4.style.height = 0;
+    section4.style.opacity = 0;
+  } else if (sectionNumber === 4) {
+    section4.style.height = "fit-content";
+    section4.style.opacity = 1;
+    section2.style.height = 0;
+    section2.style.opacity = 0;
+    section1.style.height = 0;
+    section1.style.opacity = 0;
+    section3.style.height = 0;
+    section3.style.opacity = 0;
   }
 }
 
@@ -180,6 +197,60 @@ function loadProgrammingLanguagesRatings(data) {
     : null;
 }
 
+function rangeToValue(value) {
+  switch (value) {
+    case "0":
+      return "I don't want it";
+
+    case "1":
+      return "not really";
+
+    case "2":
+      return "i don't know";
+
+    case "3":
+      return "I want it";
+
+    case "4":
+      return "I really want it";
+    default:
+      return "I don't know";
+  }
+}
+function valueToRange(text) {
+  switch (text) {
+    case "I don't want it":
+      return "0";
+
+    case "not really":
+      return "1";
+
+    case "i don't know":
+      return "2";
+
+    case "I want it":
+      return "3";
+
+    case "I really want it":
+      return "4";
+
+    default:
+      return "2";
+  }
+}
+
+function getDepValues() {
+  let desires = [];
+  RangeInputs.forEach((rangeInput) => {
+    desires.push({
+      depName: rangeInput.name,
+      depValue: rangeToValue(rangeInput.value),
+    });
+  });
+  console.log(desires);
+  return desires;
+}
+
 function saveToLocalStorage() {
   const selectedGrade = document.querySelector(
     'input[name="grade-level"]:checked'
@@ -193,10 +264,11 @@ function saveToLocalStorage() {
     phone: phoneInput.value,
     university: universityInput.value,
     field_of_study: field_of_studyInput.value,
-    Scientific_interests: getProgrammingLanguagesRatings(),
+    Scientific_interests: getProgrammingLanguagesRatings() || [],
     experience: experienceInput.value,
     why_join: why_joinInput.value,
     grade_level: selectedGrade,
+    DepartementsDesires: getDepValues() || [],
   };
   localStorage.setItem("data", JSON.stringify(data));
   console.log(data);
@@ -220,12 +292,20 @@ function loadFromLocalStorage() {
         input.checked = true;
       }
     });
+    RangeInputs.forEach((rangeInput) => {
+      rangeInput.value = valueToRange(
+        data.DepartementsDesires.find((dep) => dep.depName === rangeInput.name)
+          .depValue
+      );
+      const output = rangeInput.nextElementSibling;
+      output.innerHTML = rangeToValue(rangeInput.value);
+    });
     toggleSection(sectionNumber);
     updateProgress();
   }
 }
 function backSection() {
-  if (section1 && section2 && section3) {
+  if (section1 && section2 && section3 && section4) {
     if (sectionNumber > 1) {
       sectionNumber--;
       toggleSection(sectionNumber);
@@ -238,8 +318,8 @@ function backSection() {
 }
 
 function nextSection() {
-  if (section1 && section2 && section3) {
-    if (sectionNumber < 3) {
+  if (section1 && section2 && section3 && section4) {
+    if (sectionNumber < 4) {
       sectionNumber++;
       toggleSection(sectionNumber);
       updateProgress();
@@ -434,8 +514,25 @@ nextBtn.forEach((btn) => {
 });
 backbtn.addEventListener("click", backSection);
 
+progress.forEach((circle) => {
+  circle.addEventListener("click", () => {
+    console.log(circle.getAttribute("value"));
+    sectionNumber = parseInt(circle.getAttribute("value"));
+    toggleSection(sectionNumber);
+    updateProgress();
+    saveToLocalStorage();
+  });
+});
+
+RangeInputs.forEach((rangeInput) => {
+  rangeInput.addEventListener("input", function () {
+    const output = this.nextElementSibling;
+    output.innerHTML = rangeToValue(this.value);
+  });
+});
+
 if (submitBtn) {
-  submitBtn.addEventListener("click", (e) => {
+  submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     if (checkSubmitedData()) {
       selectedGrade = document.querySelector(
@@ -453,12 +550,14 @@ if (submitBtn) {
         why_join: why_joinInput.value,
         Scientific_interests: getProgrammingLanguagesRatings(),
         field_of_study: field_of_studyInput.value,
+        DepartementsDesires: getDepValues(),
       };
 
       console.log(data);
       submitBtn.disabled = true;
+
       submitBtn.innerHTML = "Submitting...";
-      sendData(data);
+      await sendData(data);
       submitBtn.disabled = false;
       submitBtn.innerHTML = "Submit";
     }

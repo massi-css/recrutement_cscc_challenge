@@ -207,6 +207,12 @@ body,
   color: white;
 }
 
+.circle:hover {
+  cursor: pointer;
+  background-color: #20206869;
+  color: white;
+}
+
 .back-btn {
   color: black;
   margin-bottom: 5%;
@@ -277,8 +283,21 @@ body,
   opacity: 0;
   overflow: hidden;
 }
-
+.section-4 {
+  display: flex;
+  height: 0;
+  flex-direction: column;
+  gap: 30px;
+  transition: all 0.3s ease-in;
+  opacity: 0;
+  overflow: hidden;
+}
 .section-3 .form-area {
+  flex-direction: column;
+  gap: 15px;
+}
+
+.section-4 .form-area {
   flex-direction: column;
   gap: 15px;
 }
@@ -321,6 +340,15 @@ input[type="radio"]:hover,input[type="checkbox"]:hover{
 input:focus {
   border: 2px solid #202068;
 }
+.submit-btn:disabled {
+  background-color: #20206887;
+  color: white;
+}
+.submit-btn:disabled:hover {
+  cursor: not-allowed;
+  background-color: #20206887;
+  color: white;
+}
 
 .gradelevel-content {
   padding: 15px;
@@ -331,6 +359,33 @@ input:focus {
   flex-direction: column;
   gap: 0.5rem;
   color: rgba(0, 0, 0, 0.541);
+  height: 100%;
+}
+.desire-content{
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: rgba(0, 0, 0, 0.541);
+  height: 100%;
+}
+
+.desire-content div{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr;
+  align-items: center;
+  justify-items: start;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+.desire-content div span{
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.621);
+  padding-left: 0.5rem;
 }
 .programming-languages-content{
   padding: 15px;
@@ -341,6 +396,7 @@ input:focus {
   flex-direction: column;
   gap: 0.5rem;
   color: rgba(0, 0, 0, 0.541);
+  height: 100%;
 }
 
 .programming-languages-content .lang{
