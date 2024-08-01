@@ -7,9 +7,7 @@ const field_of_studyInput = document.querySelector("#field-of-study");
 const sientificInterestsInput = document.querySelector("#interests");
 const experienceInput = document.querySelector("#experience");
 const why_joinInput = document.querySelector("#why-join");
-const grade_levelInputs = document.querySelectorAll(
-  'input[name="grade-level"]'
-);
+const grade_levelInputs = document.querySelectorAll('input[name="grade-level"]');
 const RangeInputs = document.querySelectorAll("input[type='range']");
 const submitBtn = document.querySelector(".submit-btn[type='submit']");
 const nextBtn = document.querySelectorAll(".submit-btn[type='button']");
@@ -26,6 +24,9 @@ const showformBtn = document.querySelector(".show-form");
 const localStorage = window.localStorage;
 var sectionNumber = localStorage.getItem("sectionNumber") || 1;
 
+
+
+// it toggles between sections
 function toggleSection(sectionNumber) {
   if (sectionNumber === 2) {
     section2.style.height = "fit-content";
@@ -66,33 +67,7 @@ function toggleSection(sectionNumber) {
   }
 }
 
-// interests checkboxes
-document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-  checkbox.addEventListener("change", function () {
-    const selectedValue = parseInt(this.value);
-    const selectedname = this.name;
-    document
-      .querySelectorAll(`input[name=${selectedname}]`)
-      .forEach((checkbox) => {
-        if (parseInt(checkbox.value) <= selectedValue) {
-          checkbox.checked = true;
-        } else {
-          checkbox.checked = false;
-        }
-      });
-  });
-});
-
-document.querySelectorAll(".custom-checkmark").forEach((checkmark) => {
-  checkmark.addEventListener("click", function () {
-    const checkbox = this.previousElementSibling;
-    if (checkbox) {
-      checkbox.checked = !checkbox.checked;
-      checkbox.dispatchEvent(new Event("change"));
-    }
-  });
-});
-
+// retrieves the user's evaluation and transform numerique values into string values (programing languages)
 function getProgrammingLanguagesRatings() {
   const checkboxes = sientificInterestsInput.querySelectorAll(
     'input[type="checkbox"]'
@@ -157,6 +132,7 @@ function getProgrammingLanguagesRatings() {
   return ratings;
 }
 
+// load the data from local storage to the form (after transfoming it from string value to nuemric one) (programing laguages)
 function loadProgrammingLanguagesRatings(data) {
   const checkboxes = sientificInterestsInput.querySelectorAll(
     'input[type="checkbox"]'
@@ -197,6 +173,7 @@ function loadProgrammingLanguagesRatings(data) {
     : null;
 }
 
+// transforms the numeric value of preferences range input to string value
 function rangeToValue(value) {
   switch (value) {
     case "0":
@@ -217,6 +194,8 @@ function rangeToValue(value) {
       return "I don't know";
   }
 }
+
+// transforms the string value of preferences range input to numeric value
 function valueToRange(text) {
   switch (text) {
     case "I don't want it":
@@ -239,6 +218,7 @@ function valueToRange(text) {
   }
 }
 
+// retrieves the user's preferences and transform numerique values into string values (departements'input)
 function getDepValues() {
   let desires = [];
   RangeInputs.forEach((rangeInput) => {
@@ -251,6 +231,7 @@ function getDepValues() {
   return desires;
 }
 
+// saves the current form data into localstorage
 function saveToLocalStorage() {
   const selectedGrade = document.querySelector(
     'input[name="grade-level"]:checked'
@@ -274,6 +255,7 @@ function saveToLocalStorage() {
   console.log(data);
 }
 
+// load the saved data from localstorage to the form
 function loadFromLocalStorage() {
   if (localStorage.getItem("data")) {
     let data = JSON.parse(localStorage.getItem("data"));
@@ -304,6 +286,8 @@ function loadFromLocalStorage() {
     updateProgress();
   }
 }
+
+// it goes back to the previous section by hiding the other ones
 function backSection() {
   if (section1 && section2 && section3 && section4) {
     if (sectionNumber > 1) {
@@ -317,6 +301,7 @@ function backSection() {
   }
 }
 
+// it goes to the next section by hiding the other ones
 function nextSection() {
   if (section1 && section2 && section3 && section4) {
     if (sectionNumber < 4) {
@@ -330,6 +315,7 @@ function nextSection() {
   }
 }
 
+// it updates the progress bar by changing its color (depends on the curent section)
 function updateProgress() {
   progress.forEach((circle, idx) => {
     if (idx < sectionNumber) {
@@ -340,6 +326,7 @@ function updateProgress() {
   });
 }
 
+// it checks if all the fields are filled before submitting the form
 function checkSubmitedData() {
   const selectedGrade = document.querySelector(
     'input[name="grade-level"]:checked'
@@ -365,6 +352,7 @@ function checkSubmitedData() {
   }
 }
 
+// it sends the form data to the server
 async function sendData(data) {
   const sidebg = document.querySelector(".side-bg");
   const sidebgTitle = document.querySelector(".side-bg .title");
@@ -426,6 +414,7 @@ async function sendData(data) {
   }
 }
 
+// it scrolls smoothly to the selected image slide (this is necessary for the slider smooth animation)
 function smoothScrollSlide(e) {
   e.preventDefault();
 
@@ -439,6 +428,7 @@ function smoothScrollSlide(e) {
   });
 }
 
+// it sets the active nav link to the current slide
 function setActiveNav(id) {
   sliderNavs.forEach((nav) => {
     nav.classList.remove("active");
@@ -450,6 +440,7 @@ function setActiveNav(id) {
   });
 }
 
+// it slides to the next slide after 7 seconds
 function slideNext(id) {
   if (id === sliderNavs.length + 1) {
     return;
@@ -466,6 +457,7 @@ function slideNext(id) {
   }
 }
 
+// it shows the form when the user clicks on the button (join us)
 function showForm() {
   const sidebg = document.querySelector(".side-bg");
   const slideContainer = document.querySelector(".slide-container");
@@ -498,25 +490,65 @@ function showForm() {
   }
 }
 
+
+
+// it checks the inferieur checkboxes of the selected checkbox (programing laguages)
+document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+  checkbox.addEventListener("change", function () {
+    const selectedValue = parseInt(this.value);
+    const selectedname = this.name;
+    document
+      .querySelectorAll(`input[name=${selectedname}]`)
+      .forEach((checkbox) => {
+        if (parseInt(checkbox.value) <= selectedValue) {
+          checkbox.checked = true;
+        } else {
+          checkbox.checked = false;
+        }
+      });
+  });
+});
+
+// it checks the standard checkboxes after checking the custom ones (programing laguages)
+document.querySelectorAll(".custom-checkmark").forEach((checkmark) => {
+  checkmark.addEventListener("click", function () {
+    const checkbox = this.previousElementSibling;
+    if (checkbox) {
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event("change"));
+    }
+  });
+});
+
+// event listener for the show form (join us / go back) button
 showformBtn.addEventListener("click", showForm);
 
+// event listener for the slider auto slide every 7 seconds and replay the entire circle every 7*sliderNavs.length seconds
 slideNext(1);
 setInterval(() => slideNext(1), 7000 * sliderNavs.length);
 
+// event listener for the slider navs to navigate between slides smoothly 
 sliderNavs.forEach((anchor) => {
   anchor.addEventListener("click", smoothScrollSlide);
 });
+
+// saving the initial data into localstorage to avoid potential bugs
 saveToLocalStorage();
+
+// loading it to the form to avoid  data loss
 loadFromLocalStorage();
 
+// event listeners for the next button of each section 
 nextBtn.forEach((btn) => {
   btn.addEventListener("click", nextSection);
 });
+
+// event listener for the back button
 backbtn.addEventListener("click", backSection);
 
+// event listener for the progress bar circles to navigate between sections as buttons
 progress.forEach((circle) => {
   circle.addEventListener("click", () => {
-    console.log(circle.getAttribute("value"));
     sectionNumber = parseInt(circle.getAttribute("value"));
     toggleSection(sectionNumber);
     updateProgress();
@@ -524,6 +556,7 @@ progress.forEach((circle) => {
   });
 });
 
+// event listener for the range inputs to update the output value
 RangeInputs.forEach((rangeInput) => {
   rangeInput.addEventListener("input", function () {
     const output = this.nextElementSibling;
@@ -531,6 +564,7 @@ RangeInputs.forEach((rangeInput) => {
   });
 });
 
+// event listener for the submit button
 if (submitBtn) {
   submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
