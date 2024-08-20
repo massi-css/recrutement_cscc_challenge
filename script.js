@@ -393,8 +393,8 @@ async function sendData(data) {
   const sidebgTitle = document.querySelector(".side-bg .title");
   const sidebgSubTitle = document.querySelector(".side-bg .sub-title");
 
-  let serverOrigin = "http://localhost:5000";
-  // let serverOrigin = "https://recrutement-cscc-challenge-server.onrender.com";
+  // let serverOrigin = "http://localhost:5000";
+  let serverOrigin = "https://recrutement-cscc-challenge-server.onrender.com";
 
   console.log("Sending data to server");
   try {
