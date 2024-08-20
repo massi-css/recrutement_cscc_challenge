@@ -7,7 +7,9 @@ const field_of_studyInput = document.querySelector("#field-of-study");
 const sientificInterestsInput = document.querySelector("#interests");
 const experienceInput = document.querySelector("#experience");
 const why_joinInput = document.querySelector("#why-join");
-const grade_levelInputs = document.querySelectorAll('input[name="grade-level"]');
+const grade_levelInputs = document.querySelectorAll(
+  'input[name="grade-level"]'
+);
 const RangeInputs = document.querySelectorAll("input[type='range']");
 const submitBtn = document.querySelector(".submit-btn[type='submit']");
 const nextBtn = document.querySelectorAll(".submit-btn[type='button']");
@@ -23,8 +25,6 @@ const showformBtn = document.querySelector(".show-form");
 
 const localStorage = window.localStorage;
 var sectionNumber = localStorage.getItem("sectionNumber") || 1;
-
-
 
 // it toggles between sections
 function toggleSection(sectionNumber) {
@@ -65,6 +65,14 @@ function toggleSection(sectionNumber) {
     section3.style.height = 0;
     section3.style.opacity = 0;
   }
+}
+
+async function alertMessage(message, color) {
+  alert.style.opacity = 1;
+  alert.style.backgroundColor = color;
+  alert.textContent = message;
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  alert.style.opacity = 0;
 }
 
 // retrieves the user's evaluation and transform numerique values into string values (programing languages)
@@ -227,7 +235,6 @@ function getDepValues() {
       depValue: rangeToValue(rangeInput.value),
     });
   });
-  console.log(desires);
   return desires;
 }
 
@@ -302,13 +309,17 @@ function backSection() {
 }
 
 // it goes to the next section by hiding the other ones
-function nextSection() {
+async function nextSection() {
   if (section1 && section2 && section3 && section4) {
     if (sectionNumber < 4) {
-      sectionNumber++;
-      toggleSection(sectionNumber);
-      updateProgress();
-      saveToLocalStorage();
+      if (!validateInput(sectionNumber)) {
+        alertMessage("Please fill in all fields !!", "red");
+      } else {
+        sectionNumber++;
+        toggleSection(sectionNumber);
+        updateProgress();
+        saveToLocalStorage();
+      }
     }
   } else {
     console.error("One or both sections not found");
@@ -343,12 +354,36 @@ function checkSubmitedData() {
     selectedGrade === "" ||
     selectedGrade === undefined
   ) {
-    alert.style.opacity = 1;
-    alert.textContent = "Please fill in all fields !!";
+    alertMessage("Please fill in all fields !!", "red");
     return false;
   } else {
     alert.style.opacity = 0;
     return true;
+  }
+}
+
+function validateInput(sectionNumber) {
+  switch (sectionNumber) {
+    case 1:
+      return (
+        firstnameInput.value !== "" &&
+        lastnameInput.value !== "" &&
+        emailInput.value !== "" &&
+        phoneInput.value
+      );
+    case 2:
+      return (
+        universityInput.value !== "" &&
+        field_of_studyInput.value !== "" &&
+        document.querySelector('input[name="grade-level"]:checked')?.value &&
+        getProgrammingLanguagesRatings().length > 0
+      );
+    case 3:
+      return getDepValues().length > 0;
+    case 4:
+      return experienceInput.value !== "" && why_joinInput.value !== "";
+    default:
+      return false;
   }
 }
 
@@ -358,8 +393,8 @@ async function sendData(data) {
   const sidebgTitle = document.querySelector(".side-bg .title");
   const sidebgSubTitle = document.querySelector(".side-bg .sub-title");
 
-  // let serverOrigin = "http://localhost:5000";
-  let serverOrigin = "https://recrutement-cscc-challenge-server.onrender.com";
+  let serverOrigin = "http://localhost:5000";
+  // let serverOrigin = "https://recrutement-cscc-challenge-server.onrender.com";
 
   console.log("Sending data to server");
   try {
@@ -372,11 +407,9 @@ async function sendData(data) {
       },
       body: JSON.stringify(data),
     });
-    const message = await response.text();
+    const { message } = await response.json();
     if (response.status === 201) {
-      alert.style.opacity = 1;
-      alert.style.backgroundColor = "green";
-      alert.textContent = message;
+      alertMessage(message, "green");
       localStorage.clear();
       document.querySelector(".form-content").reset();
       // confetti();
@@ -405,9 +438,7 @@ async function sendData(data) {
         requestAnimationFrame(frame);
       })();
     } else {
-      alert.style.opacity = 1;
-      alert.style.backgroundColor = "red";
-      alert.textContent = message;
+      alertMessage(message, "red");
     }
   } catch (error) {
     console.error("Fetch error:", error);
@@ -490,8 +521,6 @@ function showForm() {
   }
 }
 
-
-
 // it checks the inferieur checkboxes of the selected checkbox (programing laguages)
 document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
   checkbox.addEventListener("change", function () {
@@ -527,7 +556,7 @@ showformBtn.addEventListener("click", showForm);
 slideNext(1);
 setInterval(() => slideNext(1), 7000 * sliderNavs.length);
 
-// event listener for the slider navs to navigate between slides smoothly 
+// event listener for the slider navs to navigate between slides smoothly
 sliderNavs.forEach((anchor) => {
   anchor.addEventListener("click", smoothScrollSlide);
 });
@@ -538,7 +567,7 @@ saveToLocalStorage();
 // loading it to the form to avoid  data loss
 loadFromLocalStorage();
 
-// event listeners for the next button of each section 
+// event listeners for the next button of each section
 nextBtn.forEach((btn) => {
   btn.addEventListener("click", nextSection);
 });
