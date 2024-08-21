@@ -365,6 +365,22 @@ function checkSubmitedData() {
 function validateInput(sectionNumber) {
   switch (sectionNumber) {
     case 1:
+      if (firstnameInput.value === "") {
+        firstnameInput.focus();
+        firstnameInput.style.border = "2px solid red";
+      }
+      if (lastnameInput.value === "") {
+        lastnameInput.focus();
+        lastnameInput.style.border = "2px solid red";
+      }
+      if (emailInput.value === "") {
+        emailInput.focus();
+        emailInput.style.border = "2px solid red";
+      }
+      if (phoneInput.value === "") {
+        phoneInput.focus();
+        phoneInput.style.border = "2px solid red";
+      }
       return (
         firstnameInput.value !== "" &&
         lastnameInput.value !== "" &&
@@ -372,6 +388,22 @@ function validateInput(sectionNumber) {
         phoneInput.value
       );
     case 2:
+      if (universityInput.value === "") {
+        universityInput.focus();
+        universityInput.style.border = "2px solid red";
+      }
+      if (field_of_studyInput.value === "") {
+        field_of_studyInput.focus();
+        field_of_studyInput.style.border = "2px solid red";
+      }
+      if (!document.querySelector('input[name="grade-level"]:checked')) {
+        const grade_level = document.querySelector('input[name="grade-level"]');
+        grade_level.parentElement.parentElement.style.border = "2px solid red";
+      }
+      if (getProgrammingLanguagesRatings().length === 0) {
+        sientificInterestsInput.style.border = "2px solid red";
+      }
+
       return (
         universityInput.value !== "" &&
         field_of_studyInput.value !== "" &&
@@ -379,8 +411,19 @@ function validateInput(sectionNumber) {
         getProgrammingLanguagesRatings().length > 0
       );
     case 3:
+      if (getDepValues().length === 0) {
+        RangeInputs[0].parentElement.style.border = "2px solid red";
+      }
       return getDepValues().length > 0;
     case 4:
+      if (experienceInput.value === "") {
+        experienceInput.focus();
+        experienceInput.style.border = "2px solid red";
+      }
+      if (why_joinInput.value === "") {
+        why_joinInput.focus();
+        why_joinInput.style.border = "2px solid red";
+      }
       return experienceInput.value !== "" && why_joinInput.value !== "";
     default:
       return false;
@@ -597,6 +640,7 @@ RangeInputs.forEach((rangeInput) => {
 if (submitBtn) {
   submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
+    validateInput(sectionNumber);
     if (checkSubmitedData()) {
       selectedGrade = document.querySelector(
         'input[name="grade-level"]:checked'
