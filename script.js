@@ -604,8 +604,6 @@ sliderNavs.forEach((anchor) => {
   anchor.addEventListener("click", smoothScrollSlide);
 });
 
-// saving the initial data into localstorage to avoid potential bugs
-saveToLocalStorage();
 
 // loading it to the form to avoid  data loss
 loadFromLocalStorage();
