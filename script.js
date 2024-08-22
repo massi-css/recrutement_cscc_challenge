@@ -291,6 +291,9 @@ function loadFromLocalStorage() {
     });
     toggleSection(sectionNumber);
     updateProgress();
+  } else {
+    saveToLocalStorage();
+    loadFromLocalStorage();
   }
 }
 
